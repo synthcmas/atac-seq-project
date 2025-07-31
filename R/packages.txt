@@ -1,0 +1,16 @@
+BiocManager
+Matrix
+data.table
+ggplot2
+chromVAR
+motifmatchr
+GenomicRanges
+SummarizedExperiment
+Biostrings
+BSgenome
+ggpubr
+ggthemes
+pheatmap
+parallel
+tidyverse
+
