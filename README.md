@@ -1,17 +1,38 @@
 # README
 
-## Project Structure
+## Overview
 
-The project consists of the following directories:
+Understanding transcriptional regulation at single-cell resolution is key to deciphering cell fate decisions. This project introduces a probabilistic framework that integrates transcription factor binding motif (TFBM) data with single-cell ATAC-seq to uncover regulatory heterogeneity.
 
-- `R/` - Contains the main R script `run_model.R`.
-- `python/` - Contains two subdirectories:
-  - `mlr/` - Scripts for running multinomial logistic regression.
-  - `nplb/` - Script for plotting confusion matrix and heatmap for NPLB results.
-- `jaspar_motifs/` - Contains JASPAR motif files.
-- `meme_motifs/` - Contains MEME motif files.
-- `data/{dataset_name}/` - Contains dataset-specific files required for running the scripts.
-- `slurm_scripts/` - Contains SLURM job scripts for running the analysis on a cluster.
+- In the **supervised** mode, multinomial logistic regression identifies key motifs and motif-pairs associated with known cell states.  
+- In the **unsupervised** mode, a Gibbs sampling model jointly clusters cells and selects informative motifs, enabling de novo discovery of cell states and regulators.
+
+Applied to *Drosophila melanogaster* embryogenesis data, the method accurately recovers known developmental cell types and predicts novel TF combinations relevant to each state.
+
+## 📁 Project Structure
+
+```
+project-root/
+├── R/
+│   └── run_model.R                  # Main R script to run the model
+│
+├── python/
+│   ├── mlr/                         # Supervised analysis using multinomial logistic regression
+│   │   └── ...                      # Python scripts for supervised learning
+│   └── nplb/                        # Unsupervised analysis and visualization
+│       └── ...                      # Python scripts for clustering and plotting
+│
+├── jaspar_motifs/                  # Motif files in JASPAR format
+│   └── ...
+├── meme_motifs/                    # Motif files in MEME format
+│   └── ...
+│
+├── data/
+│   └── {dataset_name}/             # Dataset-specific input and output files
+│
+├── slurm_scripts/                  # SLURM job scripts for running on HPC clusters
+│   └── ...
+```
 
 ## Prerequisites
 
