@@ -1,5 +1,8 @@
 # README
 
+![Python](https://img.shields.io/badge/language-Python-blue.svg)
+![R](https://img.shields.io/badge/language-R-1f425f.svg)
+
 ## Overview
 
 Understanding transcriptional regulation at single-cell resolution is key to deciphering cell fate decisions. This project introduces a probabilistic framework that integrates transcription factor binding motif (TFBM) data with single-cell ATAC-seq to uncover regulatory heterogeneity.
