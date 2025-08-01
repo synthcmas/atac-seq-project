@@ -88,21 +88,21 @@ These parameters control steps modeled after the [chromVAR](https://bioconductor
 
 ####   Preprocessing
 - `chromVAR_preproc` *(boolean)*  
-  Filters out low-quality peaks and cells based on coverage thresholds as in chromVAR.
+  If `TRUE`, filters out low-quality peaks and cells based on coverage thresholds as in chromVAR.
 
 ####   Normalization
 - `chromVAR_norm` *(boolean)*  
-  Normalizes accessibility signal (e.g., read depth normalization) before correcting for GC content and PCR bias.
+  If `TRUE`, normalizes accessibility signal (e.g., read depth normalization) before correcting for GC content and PCR bias.
 
 ####   Bias Correction
 - `bias_correct` *(boolean)*  
-  Applies bias correction for GC content and technical variability using chromVAR's strategy.
+  If `TRUE`, applies bias correction for GC content and technical variability using chromVAR's strategy.
 
 ####   Post-processing
 - `chromVAR_postproc` *(boolean)*  
-  Removes redundant or uninformative features based on low variability or high correlation across cells in the motif activity matrix.
+  If `TRUE`, removes redundant or uninformative features based on low variability or high correlation across cells in the motif activity matrix.
 
-####   Clustering and Visualization
+####   Clustering 
 - `chromVAR_downstream` *(boolean)*  
   Applies chromVAR-style clustering pipeline:  
   1. Computes a cell-by-cell similarity matrix using 1 − Pearson correlation of motif activity profiles.  
