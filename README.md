@@ -155,7 +155,9 @@ Additionally, the following motif files must be present:
 
 ## Supervised Analysis `python/mlr/`
 
-All supervised analyses are located in `python/mlr/`. These scripts perform classification using motif activity features. You can run them either directly or through SLURM job scripts (examples provided). If SLURM is unavailable, simply run the corresponding Python commands manually by providing the required arguments.
+This module uses multinomial logistic regression to quantify the importance of motifs and motif pairs in predicting known cell states. It supports multiple cross-validation runs and produces precision metrics and feature weights.
+
+All supervised analyses are located in `python/mlr/`. These scripts perform classification using motif activity features. You can run them either directly or through SLURM job scripts `slurm/scripts/` (examples provided). If SLURM is unavailable, simply run the corresponding Python commands manually by providing the required arguments.
 
 ### 1. Multiple Logistic Regression Across Multiple Runs
 
@@ -223,6 +225,8 @@ sbatch script_plot_imp_motifs.sh
 ---
 
 ## Unsupervised Analysis `python/nplb/`
+
+The Non-Parametric Latent Binding (NPLB) module uses a Gibbs sampler-based probabilistic model to perform de novo clustering of cells in the space of motif activity, simultaneously identifying informative motifs for each cluster. This allows regulatory heterogeneity to emerge directly from the data.
 
 Unsupervised analysis scripts are in `python/nplb/`. These typically include clustering evaluation and visualizations like confusion matrices.
 
