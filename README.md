@@ -248,7 +248,6 @@ python3 python/nplb/plot_nplb_confusion_matrix_heatmap.py <model_arch_txt> <mode
 ```bash
 sbatch script_plot_nplb_confusion_matrix_heatmap.sh
 ```
-> *Note: The unsupervised analysis code (NPLB) is currently being finalized for release and will be added to the public repository shortly.*
 
 ## Troubleshooting
 
@@ -260,4 +259,9 @@ sbatch script_plot_nplb_confusion_matrix_heatmap.sh
 - **Unexpected results:** Double-check input files, parameter settings, and preprocessing steps.
 
 For any persistent issues, refer to error logs and confirm all input files and dependencies are correctly set up.
+
+## 🚧 Development Status
+
+The core pipeline and supervised analysis are stable and ready for use.  
+The unsupervised analysis module (NPLB) has been developed and tested, and will be integrated into the repository soon.
 
