@@ -60,7 +60,7 @@ pip install -r python/requirements.txt
 - MEME suite
 - bedtools
 
-## Running the Main Pipeline Script `R/run_model.R`
+## Running the Main Pipeline Script 
 
 The main analysis is initiated using the script [`R/run_model.R`](R/run_model.R). Before execution, key parameters must be set manually inside the script. Below is a description of the main parameters and their function:
 
@@ -158,7 +158,7 @@ Additionally, the following motif files must be present:
 - `jaspar_motifs/{organism_name}.txt` - List of motifs in JASPAR format.
 - `meme_motifs/{organism_name}.meme` - List of motifs in MEME format.
 
-## Supervised Analysis `python/mlr/`
+## Supervised Analysis
 
 This module uses multinomial logistic regression to quantify the importance of motifs and motif pairs in predicting known cell states. It supports multiple cross-validation runs and produces precision metrics and feature weights.
 
@@ -229,7 +229,7 @@ sbatch script_plot_imp_motifs.sh
 
 ---
 
-## Unsupervised Analysis `python/nplb/`
+## Unsupervised Analysis 
 
 The Non-Parametric Latent Binding (NPLB) module uses a Gibbs sampler-based probabilistic model to perform de novo clustering of cells in the space of motif activity, simultaneously identifying informative motifs for each cluster. This allows regulatory heterogeneity to emerge directly from the data.
 
