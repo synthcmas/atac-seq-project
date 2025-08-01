@@ -57,8 +57,6 @@ pip install -r python/requirements.txt
 
 ## Running the Main Pipeline Script
 
-### Script: `R/run_model.R`
-
 The main analysis is initiated using the script [`R/run_model.R`](R/run_model.R). Before execution, key parameters must be set manually inside the script. Below is a description of the main parameters and their function:
 
 ### General Settings
