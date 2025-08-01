@@ -153,133 +153,91 @@ Additionally, the following motif files must be present:
 - `jaspar_motifs/{organism_name}.txt` - List of motifs in JASPAR format.
 - `meme_motifs/{organism_name}.meme` - List of motifs in MEME format.
 
-## Running Python Scripts
+## Supervised Analysis `python/mlr/`
 
-Python scripts are located in `python/`. Instead of running them manually, use the SLURM job scripts. **Ensure the required positional arguments are correctly provided inside the job script for the Python commands.**
+All supervised analyses are located in `python/mlr/`. These scripts perform classification using motif activity features. You can run them either directly or through SLURM job scripts (examples provided). If SLURM is unavailable, simply run the corresponding Python commands manually by providing the required arguments.
 
-### `smlr/`
+### 1. Multiple Logistic Regression Across Multiple Runs
 
-#### Run Multiple Logistic Regression across multiple runs
+This script performs K-fold cross-validation across multiple runs to assess classifier performance.
 
+**Direct command:**
+```bash
+python3 python/mlr/run_mlr_precision_full_kfold_multiple_runs.py <motif_activity_file_csv> <labels_csv>
+```
+
+**SLURM example:**
 ```bash
 cd slurm_scripts/
 sbatch script_run_mlr_precision_full_kfold_multiple_runs.sh
 ```
 
-Example SLURM script (`script_run_mlr_precision_full_kfold_multiple_runs.sh`):
+---
 
+### 2. Plot Error Bars for MLR Performance
+
+Generates error bar plots for precision values across multiple runs.
+
+**Direct command:**
 ```bash
-#!/bin/sh
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=40
-#SBATCH --time=96:00:00
-#SBATCH --job-name=precision
-#SBATCH --error=job.%precision.err
-#SBATCH --output=job.%precision.out
-#SBATCH --partition=gpu
-
-# Load required modules
-module load anaconda3-2023.3
-
-python3 ../python/mlr/run_mlr_precision_full_kfold_multiple_runs.py <motif_activity_file_csv> <labels_csv>
+python3 python/mlr/plot_error_bars.py <pairs_precision_results_pkl> <individual_precision_results_pkl> <cell_types_csv>
 ```
 
-#### Plot Error Bars
-
+**SLURM example:**
 ```bash
 sbatch script_plot_error_bars.sh
 ```
 
-Example SLURM script (`script_plot_error_bars.sh`):
+---
 
+### 3. MLR with Feature Weight Output
+
+Runs MLR and saves the feature weights for each cell type for downstream interpretation.
+
+**Direct command:**
 ```bash
-#!/bin/sh
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=40
-#SBATCH --time=96:00:00
-#SBATCH --job-name=plot_error_bars
-#SBATCH --error=job.%plot_error_bars.err
-#SBATCH --output=job.%plot_error_bars.out
-#SBATCH --partition=gpu
-
-# Load required modules
-module load anaconda3-2023.3
-
-python3 ../python/mlr/plot_error_bars.py <pairs_precision_results_pkl> <individual_precision_results_pkl> <cell_types_csv>
+python3 python/mlr/run_mlr_feature_weights_full.py <motif_activity_file_csv> <labels_csv>
 ```
 
-#### Run MLR and Save Feature Weights
-
+**SLURM example:**
 ```bash
 sbatch script_run_mlr_feature_weights_full.sh
 ```
 
-Example SLURM script (`script_run_mlr_feature_weights_full.sh`):
+---
 
+### 4. Plot Important Motif Features
+
+Plots motif pairs and individual motifs with high weights, highlighting discriminative features across cell types.
+
+**Direct command:**
 ```bash
-#!/bin/sh
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=40
-#SBATCH --time=96:00:00
-#SBATCH --job-name=feature_weights
-#SBATCH --error=job.%feature_weights.err
-#SBATCH --output=job.%feature_weights.out
-#SBATCH --partition=gpu
-
-# Load required modules
-module load anaconda3-2023.3
-
-python3 ../python/mlr/run_mlr_feature_weights_full.py <motif_activity_file_csv> <labels_csv>
+python3 python/mlr/plot_imp_motifs.py <pairs_feature_weights_pkl> <individual_feature_weights_pkl>
 ```
 
-#### Plot Important Motifs
-
+**SLURM example:**
 ```bash
 sbatch script_plot_imp_motifs.sh
 ```
 
-Example SLURM script (`script_plot_imp_motifs.sh`):
+---
 
+## Unsupervised Analysis `python/nplb/`
+
+Unsupervised analysis scripts are in `python/nplb/`. These typically include clustering evaluation and visualizations like confusion matrices.
+
+### Plot Confusion Matrix and Heatmap
+
+Evaluates model prediction against true labels, visualized as a confusion matrix and cell type-specific heatmap.
+
+**Direct command:**
 ```bash
-#!/bin/sh
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=40
-#SBATCH --time=96:00:00
-#SBATCH --job-name=plot_imp_motifs
-#SBATCH --error=job.%plot_imp_motifs.err
-#SBATCH --output=job.%plot_imp_motifs.out
-#SBATCH --partition=gpu
-
-# Load required modules
-module load anaconda3-2023.3
-
-python3 ../python/mlr/plot_imp_motifs.py <pairs_feature_weights_pkl> <individual_feature_weights_pkl>
+python3 python/nplb/plot_nplb_confusion_matrix_heatmap.py <model_arch_txt> <model_output_txt> <labels_csv> <motifs_csv> <cell_types_csv>
 ```
 
-### `nplb/`
-
-#### Plot Confusion Matrix and Heatmap
-
+**SLURM example:**
 ```bash
 sbatch script_plot_nplb_confusion_matrix_heatmap.sh
-```
-
-Example SLURM script (`script_plot_nplb_confusion_matrix_heatmap.sh`):
-
-```bash
-#!/bin/sh
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=40
-#SBATCH --time=96:00:00
-#SBATCH --job-name=plot_nplb_confusion_matrix_heatmap.py
-#SBATCH --error=job.%plot_nplb_confusion_matrix_heatmap.err
-#SBATCH --output=job.%plot_nplb_confusion_matrix_heatmap.out
-#SBATCH --partition=gpu
-
-# Load required modules
-module load anaconda3-2023.3
-
-python3 ../python/nplb/plot_nplb_confusion_matrix_heatmap.py <model_arch_txt> <model_output_txt> <labels_csv> <motifs_csv> <cell_types_csv>
 ```
 
 ## Troubleshooting
