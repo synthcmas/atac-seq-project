@@ -59,13 +59,54 @@ pip install -r python/requirements.txt
 
 The main analysis is initiated using the script [`R/run_model.R`](R/run_model.R). Before execution, key parameters must be set manually inside the script. Below is a description of the main parameters and their function:
 
-### General Settings
+### Input and Resource Configuration
 
 - `data_dir` *(string)*  
   Path to the dataset directory (e.g., `data/furlong`).
 
 - `n_cores` *(integer)*  
   Number of cores to use for parallelization.
+
+### Feature Construction Options
+
+- `FIMO`:  
+  Set to `TRUE` to use FIMO-predicted motif occurrences within peak regions (recommended for precise motif mapping).
+
+- `withPairs`:  
+  Set to `TRUE` to construct features based on **motif-pair co-occurrences** within peak regions.  
+  This includes both:
+  - **Distinct motif-pairs** (e.g., *A.B*)
+  - **Self-pairs** (e.g., *A.A*, i.e., multiple instances of the same motif)
+
+- `same`:  
+  Used only when `withPairs = TRUE`.  
+  Set to `TRUE` to **include same-motif co-occurrence pairs** (e.g., *A.A*) that occur **at least twice** within a peak region.
+
+### chromVAR-Inspired Motif Activity Pipeline
+
+These parameters control steps modeled after the [chromVAR](https://bioconductor.org/packages/release/bioc/html/chromVAR.html) package:
+
+####   Preprocessing
+- `chromVAR_preproc` *(boolean)*  
+  Filters out low-quality peaks and cells based on coverage thresholds as in chromVAR.
+
+####   Normalization
+- `chromVAR_norm` *(boolean)*  
+  Normalizes accessibility signal (e.g., read depth normalization) before correcting for GC content and PCR bias.
+
+####   Bias Correction
+- `bias_correct` *(boolean)*  
+  Applies bias correction for GC content and technical variability using chromVAR's strategy.
+
+####   Post-processing
+- `chromVAR_postproc` *(boolean)*  
+  Removes redundant or uninformative features based on low variability or high correlation across cells in the motif activity matrix.
+
+####   Clustering and Visualization
+- `chromVAR_downstream` *(boolean)*  
+  Applies chromVAR-style clustering pipeline:  
+  1. Computes a cell-by-cell similarity matrix using 1 − Pearson correlation of motif activity profiles.  
+  2. Performs hierarchical clustering on this matrix to group cells into clusters.
 
 ### Analysis Modes
 
@@ -75,45 +116,11 @@ The main analysis is initiated using the script [`R/run_model.R`](R/run_model.R)
 - `topic_modeling` *(boolean)*  
   If `TRUE`, applies cisTopic to the binarized motif activity matrix (computed from chromVAR or motif-pair signal aggregation).
 
-- `same` *(boolean)*  
-  Use only when `withPairs = TRUE`.  
-  Set to `TRUE` to **include same-motif co-occurrence pairs** (e.g., *A.A*) that occur **at least twice** within a peak region.
-
-- `withPairs` *(boolean)*  
-  If `TRUE`, includes features representing co-occurrence of motif pairs within peak regions, in addition to individual motifs.  
-  Accessibility signals are aggregated across both motif and motif-pair instances.
-
 - `n_seeds_cisTopic` *(integer)*  
   Number of independent random seeds used when running cisTopic (for stability/reproducibility).
 
-### Data Handling
-
 - `binary` *(boolean)*  
-  If `TRUE`, binarizes the input ATAC-seq count matrix before downstream analysis.
-
-- `FIMO` *(boolean)*  
-  If `TRUE`, uses FIMO-predicted motif occurrences in peak regions for feature construction.
-
-### chromVAR-Inspired Preprocessing and Clustering
-
-These parameters control steps modeled after the [chromVAR](https://bioconductor.org/packages/release/bioc/html/chromVAR.html) package:
-
-- `chromVAR_preproc` *(boolean)*  
-  Filters out low-quality peaks and cells based on coverage thresholds as in chromVAR.
-
-- `chromVAR_norm` *(boolean)*  
-  Normalizes accessibility signal (e.g., read depth normalization) before correcting for GC content and PCR bias.
-
-- `bias_correct` *(boolean)*  
-  Applies bias correction for GC content and technical variability using chromVAR's strategy.
-
-- `chromVAR_postproc` *(boolean)*  
-  Removes redundant or uninformative features based on low variability or high correlation across cells in the motif activity matrix.
-
-- `chromVAR_downstream` *(boolean)*  
-  Applies chromVAR-style clustering pipeline:  
-  1. Computes a cell-by-cell similarity matrix using 1 − Pearson correlation of motif activity profiles.  
-  2. Performs hierarchical clustering on this matrix to group cells into clusters.
+  If TRUE, binarizes the ATAC-seq peak matrix before downstream analysis (required by cisTopic).
 
 ---
 
