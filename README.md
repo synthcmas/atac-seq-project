@@ -248,6 +248,7 @@ python3 python/nplb/plot_nplb_confusion_matrix_heatmap.py <model_arch_txt> <mode
 ```bash
 sbatch script_plot_nplb_confusion_matrix_heatmap.sh
 ```
+> *Note: The unsupervised analysis code (NPLB) is currently being finalized for release and will be added to the public repository shortly.*
 
 ## Troubleshooting
 
