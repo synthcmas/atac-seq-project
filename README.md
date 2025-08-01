@@ -260,7 +260,7 @@ sbatch script_plot_nplb_confusion_matrix_heatmap.sh
 
 For any persistent issues, refer to error logs and confirm all input files and dependencies are correctly set up.
 
-## 🚧 Development Status
+## Development Status
 
 The core pipeline and supervised analysis are stable and ready for use.  
 The unsupervised analysis module (NPLB) has been developed and tested, and will be integrated into the repository soon.
