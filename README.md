@@ -76,8 +76,8 @@ The main analysis is initiated using the script [`R/run_model.R`](R/run_model.R)
   If `TRUE`, applies cisTopic to the binarized motif activity matrix (computed from chromVAR or motif-pair signal aggregation).
 
 - `same` *(boolean)*  
-  If `TRUE`, includes individual motifs that appear two or more times within the same peak.  
-  If `FALSE`, considers only unique motif occurrences.
+  Used only when `withPairs = TRUE`.  
+  Set to `TRUE` to **include same-motif co-occurrence pairs** (e.g., *A.A*) that occur **at least twice** within a peak region.
 
 - `withPairs` *(boolean)*  
   If `TRUE`, includes features representing co-occurrence of motif pairs within peak regions, in addition to individual motifs.  
