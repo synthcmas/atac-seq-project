@@ -132,14 +132,14 @@ cd slurm_scripts/
 sbatch script_run_model.sh
 ```
 
-## Required Data Files in `data/{dataset_name}/`
+## Data Structure `data/{dataset_name}/`
 
 1. `dataset.RData` - A sparse matrix with ATAC-seq count values (columns as cell barcodes, rows as ATAC-seq peaks).
-2. `labels.RData` - Vector of true labels for the samples (integer values).
-3. `bed_file.bed` - BED file containing ATAC-seq peaks.
-4. `regions.fa` - ATAC-seq peaks in FASTA format (for FIMO analysis).
+2. `labels.RData` - Vector of integer-encoded ground-truth labels.
+3. `bed_file.bed` - BED file of peak coordinates.
+4. `regions.fa` - FASTA of peak regions for FIMO motif search.
 5. `genome_org.txt` - Two-line file specifying genome name in BSgenome format (e.g., `BSgenome.Hsapiens.UCSC.hg38`) and organism name.
-6. `lib_size.RData` - Library sizes of samples (required if `chromVAR_preproc` is `TRUE`).
+6. `lib_size.RData` - Library sizes of samples. Required if using `chromVAR_preproc` is `TRUE`.
 
 Additionally, the following motif files must be present:
 
