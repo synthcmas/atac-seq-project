@@ -55,26 +55,75 @@ pip install -r python/requirements.txt
 - MEME suite
 - bedtools
 
-## Running the Main R Script
+## Running the Main Pipeline Script
 
 ### Script: `R/run_model.R`
 
-This script runs the main analysis pipeline. The parameters need to be manually set within the script before execution. Key parameters include:
+The main analysis is initiated using the script [`R/run_model.R`](R/run_model.R). Before execution, key parameters must be set manually inside the script. Below is a description of the main parameters and their function:
 
-- `cisTopic` (boolean): If `TRUE`, performs cisTopic; otherwise, runs the custom method.
-- `same` (boolean): Whether to include same motif pairs.
-- `n_seeds_cisTopic` (integer): Number of cisTopic runs (if `cisTopic` or `topic_modeling` is `TRUE`).
-- `binary` (boolean): Whether to use raw ATAC-seq count matrix (`FALSE`) or binarized version (`TRUE`).
-- `chromVAR_preproc` (boolean): If `TRUE`, applies chromVAR preprocessing.
-- `FIMO` (boolean): If `TRUE`, uses FIMO for motif finding.
-- `n_cores` (integer): Number of cores for multi-threading.
-- `withPairs` (boolean): If `TRUE`, includes motif pair occurrences.
-- `chromVAR_norm` (boolean): If `TRUE`, applies chromVAR normalization.
-- `bias_correct` (boolean): If `TRUE`, performs bias correction.
-- `chromVAR_postproc` (boolean): If `TRUE`, applies chromVAR post-processing.
-- `chromVAR_downstream` (boolean): If `TRUE`, runs chromVAR’s downstream clustering pipeline instead of NPLB.
-- `topic_modeling` (boolean): If `TRUE`, applies cisTopic to binarized motif activity.
-- `data_dir` (string): Path to dataset directory (e.g., `data/furlong`).
+### General Settings
+
+- `data_dir` *(string)*  
+  Path to the dataset directory (e.g., `data/furlong`).
+
+- `n_cores` *(integer)*  
+  Number of cores to use for parallelization.
+
+### Analysis Modes
+
+- `cisTopic` *(boolean)*  
+  If `TRUE`, applies the cisTopic framework directly to the binarized ATAC-seq peak-by-cell matrix to uncover latent topics.
+
+- `topic_modeling` *(boolean)*  
+  If `TRUE`, applies cisTopic to the binarized motif activity matrix (computed from chromVAR or motif-pair signal aggregation).
+
+- `same` *(boolean)*  
+  If `TRUE`, includes individual motifs that appear two or more times within the same peak.  
+  If `FALSE`, considers only unique motif occurrences.
+
+- `withPairs` *(boolean)*  
+  If `TRUE`, includes features representing co-occurrence of motif pairs within peak regions, in addition to individual motifs.  
+  Accessibility signals are aggregated across both motif and motif-pair instances.
+
+- `n_seeds_cisTopic` *(integer)*  
+  Number of independent random seeds used when running cisTopic (for stability/reproducibility).
+
+### Data Handling
+
+- `binary` *(boolean)*  
+  If `TRUE`, binarizes the input ATAC-seq count matrix before downstream analysis.
+
+- `FIMO` *(boolean)*  
+  If `TRUE`, uses FIMO-predicted motif occurrences in peak regions for feature construction.
+
+### chromVAR-Inspired Preprocessing and Clustering
+
+These parameters control steps modeled after the [chromVAR](https://bioconductor.org/packages/release/bioc/html/chromVAR.html) package:
+
+- `chromVAR_preproc` *(boolean)*  
+  Filters out low-quality peaks and cells based on coverage thresholds as in chromVAR.
+
+- `chromVAR_norm` *(boolean)*  
+  Normalizes accessibility signal (e.g., read depth normalization) before correcting for GC content and PCR bias.
+
+- `bias_correct` *(boolean)*  
+  Applies bias correction for GC content and technical variability using chromVAR's strategy.
+
+- `chromVAR_postproc` *(boolean)*  
+  Removes redundant or uninformative features based on low variability or high correlation across cells in the motif activity matrix.
+
+- `chromVAR_downstream` *(boolean)*  
+  Applies chromVAR-style clustering pipeline:  
+  1. Computes a cell-by-cell similarity matrix using 1 − Pearson correlation of motif activity profiles.  
+  2. Performs hierarchical clustering on this matrix to group cells into clusters.
+
+---
+
+Once parameters are set, the script can be run using any R environment:
+
+```bash
+Rscript R/run_model.R
+```
 
 ### Running on a Cluster
 
