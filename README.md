@@ -12,7 +12,7 @@ Understanding transcriptional regulation at single-cell resolution is key to dec
 - In the **supervised** mode, multinomial logistic regression identifies key motifs and motif-pairs associated with known cell states.  
 - In the **unsupervised** mode, a Gibbs sampling model jointly clusters cells and selects informative motifs, enabling de novo discovery of cell states and regulators.
 
-Applied to *Drosophila melanogaster* embryogenesis data, the method accurately recovers known developmental cell types and predicts novel TF combinations relevant to each state.
+Applied to *Drosophila melanogaster* embryogenesis and differentiating human hematopoietic cells data, the method accurately recovers known developmental cell types and predicts novel TF combinations relevant to each state.
 
 ## 📁 Project Structure
 
