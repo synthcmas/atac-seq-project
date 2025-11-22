@@ -164,7 +164,7 @@ This module uses multinomial logistic regression to quantify the importance of m
 
 All supervised analyses are located in `python/mlr/`. These scripts perform classification using motif activity features. You can run them either directly or through SLURM job scripts `slurm_scripts/` (examples provided). If SLURM is unavailable, simply run the corresponding Python commands manually by providing the required arguments.
 
-### 1. Multiple Logistic Regression Across Multiple Runs
+### 1. Multiple Logistic Regression (MLR) Across Multiple Runs
 
 This script performs K-fold cross-validation across multiple runs to assess classifier performance.
 
